@@ -1,0 +1,30 @@
+<app-header [title]="'Deductions'"></app-header>
+<div class="margin-1-em">
+    <table class="ui compact selectable celled definition table">
+        <thead class="full-width">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let deduction of deductions" (click)="goToDeduction(deduction._id)">
+                <td>{{deduction.name}}</td>
+                <td>{{deduction.type | titlecase}}</td>
+                <td>{{deduction.value}}</td>
+            </tr>
+
+        </tbody>
+        <tfoot class="full-width">
+            <tr>
+                <th></th>
+                <th colspan="4">
+                    <div class="ui right floated small primary labeled icon button" [routerLink]="['/deductions/new']">
+                        <i class="dollar sign icon"></i> Add Deduction
+                    </div>
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

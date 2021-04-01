@@ -1,0 +1,54 @@
+<app-header [title]="'Organization'"></app-header>
+
+<div class="margin-1-em">
+    <div class="ui vertically divided grid">
+        <div class="two column row">
+            <div class="column">
+                <form class="ui form" [formGroup]="orgForm" (ngSubmit)="updateOrg()">
+                    <div class="field">
+                        <label>Name</label>
+                        <div class="fields"
+                            [class.error]="(orgForm.get('name').dirty || orgForm.get('name').touched) && orgForm.get('name').invalid">
+                            <div class="sixteen wide field">
+                                <input type="text" formControlName="name" placeholder="Name of the organization">
+                            </div>
+                        </div>
+                    </div>
+                    <div formGroupName="address">
+                        <div class="field">
+                            <label>Billing Address</label>
+                            <div class="fields">
+                                <div class="twelve wide field"
+                                    [class.error]="(orgForm.get('address.street').dirty || orgForm.get('address.street').touched) && orgForm.get('address.street').invalid">
+                                    <input type="text" formControlName="street" placeholder="Street Address">
+                                </div>
+                                <div class="four wide field"
+                                    [class.error]="(orgForm.get('address.zip').dirty || orgForm.get('address.zip').touched) && orgForm.get('address.zip').invalid">
+                                    <input type="text" formControlName="zip" placeholder="Zip">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field"
+                                [class.error]="(orgForm.get('address.country').dirty || orgForm.get('address.country').touched) && orgForm.get('address.country').invalid">
+                                <label>Country</label>
+                                <input type="text" formControlName="country" placeholder="Country" value="United States"
+                                    readonly>
+                            </div>
+                            <div class="field"
+                                [class.error]="(orgForm.get('address.state').dirty || orgForm.get('address.state').touched) && orgForm.get('address.state').invalid">
+                                <label>State</label>
+                                <select class="ui fluid dropdown" formControlName="state">
+                                    <option value="">State</option>
+                                    <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="ui button" type="submit" [disabled]="orgForm.invalid">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<app-header [title]="'Employees'"></app-header>
+<div class="margin-1-em">
+    <table class="ui compact  celled definition table">
+        <thead class="full-width">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Employee ID</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th>Take Home</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of employees">
+                <td class="selectable" (click)="goToEmpProfile(employee._id)">{{employee.name}}</td>
+                <td>{{employee.email}}</td>
+                <td>{{employee.empID}}</td>
+                <td>{{employee.department}}</td>
+                <td>{{employee.salary}}</td>
+                <td><button class="ui button" (click)="calculate(employee._id)">Calculate</button></td>
+            </tr>
+        </tbody>
+        <tfoot class="full-width">
+            <tr>
+                <th></th>
+                <th colspan="5">
+                    <div class="ui right floated small primary labeled icon button" [routerLink]="['/employees/new']">
+                        <i class="user icon"></i> Add Employee
+                    </div>
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

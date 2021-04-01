@@ -1,0 +1,114 @@
+<app-header [title]="'Payslip'"></app-header>
+<div class="margin-1-em">
+    <h5>Company Info</h5>
+    <table class="ui compact celled definition table">
+        <thead class="full-width">
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{orgInfo.name}}</td>
+                <td>{{orgInfo.address.street}},{{orgInfo.address.zip}}, {{orgInfo.address.state}},
+                    {{orgInfo.address.country}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h5>Payslip Info</h5>
+    <table class="ui compact celled definition table">
+        <thead class="full-width">
+            <tr>
+                <th>Name</th>
+                <th>Employee ID</th>
+                <th>Email</th>
+                <th>Period</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{empInfo.name}}</td>
+                <td>{{empInfo.empID}}</td>
+                <td>{{empInfo.email}}</td>
+                <td>Yearly</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="ui grid">
+        <div class="seven wide column">
+            <h5>Taxable Income</h5>
+            <table class="ui compact celled definition table">
+                <thead class="full-width">
+                    <tr>
+                        <th>Pay Type</th>
+                        <th>Earnings</th>
+                        <th>Taxable Income</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Regular Pay</td>
+                        <td>${{empInfo.salary}}</td>
+                        <td>${{empInfo.salary}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="seven wide column">
+            <h5>Employee Taxes</h5>
+            <table class="ui compact celled definition table">
+                <thead class="full-width">
+                    <tr>
+                        <th>Description</th>
+                        <th>Value</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let deduction of empInfo.deductions">
+                        <td>{{deduction.name}}</td>
+                        <td>{{deduction.value}} {{deduction.type === 'percent'? '%' : '$'}}</td>
+                        <td>${{calculateTax(deduction.value, deduction.type, empInfo.salary)}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th colspan="1">
+                            Total Tax
+                        </th>
+                        <th>
+                            ${{totalTax}}
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <h5>Total Wages</h5>
+    <table class="ui compact celled definition table">
+        <thead class="full-width">
+            <tr>
+                <th>Pay Type</th>
+                <th>Earnings</th>
+                <th>Taxable Income</th>
+                <th>Tax Value</th>
+                <th>Net Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Regular Pay</td>
+                <td>${{empInfo.salary}}</td>
+                <td>${{empInfo.salary}}</td>
+                <td>${{totalTax}}</td>
+                <td>${{empInfo.salary - totalTax}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

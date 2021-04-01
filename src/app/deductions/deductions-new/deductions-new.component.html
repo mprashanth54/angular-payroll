@@ -1,0 +1,43 @@
+<app-header [title]="'Add Deduction'"></app-header>
+<div class="margin-1-em">
+    <div class="ui vertically divided grid">
+        <div class="two column row">
+            <div class="column">
+                <form class="ui form" [formGroup]="deductionForm" (ngSubmit)="addDeduction()">
+                    <div class="field">
+                        <label>Name</label>
+                        <div class="fields">
+                            <div class="twelve wide field">
+                                <input type="text" formControlName="name" placeholder="Name of the deduction">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Value</label>
+                        <div class="fields">
+                            <div class="twelve wide field ">
+                                <div class="ui right labeled input">
+                                    <input type="number" formControlName="value" placeholder="Deduction Value">
+                                    <div class="ui simple dropdown label">
+                                        <div class="text">{{deductionType}}</div>
+                                        <i class="dropdown icon"></i>
+                                        <div class="menu">
+                                            <div class="item" (click)="updateType('percent')">%</div>
+                                            <div class="item" (click)="updateType('flat')">$</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p> *Note - all deduction value is calculated from base pay
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="ui button" type="submit" [disabled]="deductionForm.invalid"
+                        *ngIf="updateForm == true">Update</button>
+                    <button class="ui button" type="submit" [disabled]="deductionForm.invalid"
+                        *ngIf="updateForm == false">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
