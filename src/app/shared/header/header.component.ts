@@ -16,9 +16,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logout(): void {
+  async logout(): Promise<any> {
     this.authService.logOut()
-    this.authService.logOut()
+    await this.gAuthService.signOut()
     this.router.navigate([''])
 
   }

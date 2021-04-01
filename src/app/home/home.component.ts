@@ -14,13 +14,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.gAuthService.authState.subscribe((user) => {
-      this.authService.login(user.idToken).subscribe((data) => {
-        console.log(data)
-        const { token } = data
-        this.authService.setToken(token)
-        this.router.navigate(['organization'], {});
+      console.log("user", user)
+      if (user) {
+        this.authService.login(user.idToken).subscribe((data) => {
+          console.log(data)
+          const { token } = data
+          this.authService.setToken(token)
+          this.router.navigate(['organization'], {});
 
-      })
+        })
+      }
+
     });
   }
 
