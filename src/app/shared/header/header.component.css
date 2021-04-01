@@ -2,6 +2,7 @@
     position: sticky;
     top: 0;
     font-size: 2em;
+    margin-left: 0.5em;
     padding: 0.5em;
     border-bottom: 1px solid  #efefef;
     z-index: 100;

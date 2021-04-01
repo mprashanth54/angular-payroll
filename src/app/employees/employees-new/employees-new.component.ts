@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeductionsService } from 'src/app/services/deductions.service';
@@ -16,9 +16,15 @@ export class EmployeesNewComponent implements OnInit {
   selectedItems = [];
   dropdownSettings = {};
   newEmpForm: FormGroup;
+  exemptionForm: FormGroup;
   employeeID: string
   updateForm = false
   deductions: any = []
+  exemptions: any = [{
+    name: 'Home Loan',
+    value: 700000,
+    deductible: 50000
+  }]
 
   constructor(private fb: FormBuilder, private ds: DeductionsService, private es: EmployeesService, private toastrService: ToastrService, private route: ActivatedRoute) {
     this.dropdownList = [];
@@ -42,6 +48,12 @@ export class EmployeesNewComponent implements OnInit {
       department: ['', [Validators.required, Validators.minLength(2)]],
       salary: [0, [Validators.required, Validators.min(1)]],
       deductions: [[]]
+    })
+
+    this.exemptionForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(200)]],
+      value: [0, [Validators.required, Validators.min(1)]],
+      deductible: [0, [Validators.required, Validators.min(1)]]
     })
   }
 
@@ -71,6 +83,8 @@ export class EmployeesNewComponent implements OnInit {
 
   async setEmployee(id: string): Promise<any> {
     const employee = await this.es.getEmployeeById(id).toPromise()
+    console.log(employee.exemptions)
+    this.exemptions = employee['exemptions'] || []
     this.newEmpForm.setValue({
       name: employee.name,
       empID: employee.empID,
@@ -113,6 +127,28 @@ export class EmployeesNewComponent implements OnInit {
       this.toastrService.error('Employee ', 'Invalid Details')
     }
 
+  }
+
+  async addExemption(): Promise<any> {
+    console.log("Valid ", this.exemptionForm)
+    this.exemptions.push(this.exemptionForm.value)
+    this.exemptionForm.reset()
+    await this.updateExemptions()
+  }
+
+
+  async updateExemptions(): Promise<any> {
+    try {
+      await this.es.updateExemptions(this.employeeID, this.exemptions).toPromise()
+      this.toastrService.success('Exemptions', 'Updated Successfully')
+    } catch (err) {
+      this.toastrService.error('Exemptions', 'Invalid Details')
+    }
+  }
+
+  async deleteExemption(i: number): Promise<any> {
+    this.exemptions.splice(i, 1)
+    await this.updateExemptions()
   }
 
   updateDeductions(val): void {

@@ -29,4 +29,8 @@ export class EmployeesService {
     return this.http.get(`${this.baseUrl}/employees/${id}/payslip`)
   }
 
+  updateExemptions(id, exemptions): Observable<any> {
+    return this.http.post(`${this.baseUrl}/employees/${id}/exemptions`, exemptions)
+  }
+
 }

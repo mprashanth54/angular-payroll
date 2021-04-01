@@ -37,6 +37,24 @@
         </tbody>
     </table>
 
+    <h5>Employee Exemptions</h5>
+    <table class="ui compact celled definition table">
+        <thead class="full-width">
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Deductible</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let exemption of empInfo.exemptions">
+                <td>{{exemption.name}}</td>
+                <td>${{exemption.value}}</td>
+                <td>${{exemption.deductible}}</td>
+            </tr>
+        </tbody>
+    </table>
+
     <div class="ui grid">
         <div class="seven wide column">
             <h5>Taxable Income</h5>
@@ -52,7 +70,7 @@
                     <tr>
                         <td>Regular Pay</td>
                         <td>${{empInfo.salary}}</td>
-                        <td>${{empInfo.salary}}</td>
+                        <td>${{taxableIncome}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -72,7 +90,7 @@
                     <tr *ngFor="let deduction of empInfo.deductions">
                         <td>{{deduction.name}}</td>
                         <td>{{deduction.value}} {{deduction.type === 'percent'? '%' : '$'}}</td>
-                        <td>${{calculateTax(deduction.value, deduction.type, empInfo.salary)}}</td>
+                        <td>${{calculateTax(deduction.value, deduction.type, taxableIncome)}}</td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -105,7 +123,7 @@
             <tr>
                 <td>Regular Pay</td>
                 <td>${{empInfo.salary}}</td>
-                <td>${{empInfo.salary}}</td>
+                <td>${{taxableIncome}}</td>
                 <td>${{totalTax}}</td>
                 <td>${{empInfo.salary - totalTax}}</td>
             </tr>
